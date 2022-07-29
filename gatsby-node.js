@@ -1,5 +1,6 @@
 const path = require(`path`)
 const { createFilePath } = require(`gatsby-source-filesystem`)
+const createPaginatedPages = require("gatsby-paginate")
 
 exports.createPages = async ({ graphql, actions, reporter }) => {
   const { createPage } = actions
@@ -17,8 +18,14 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
         ) {
           nodes {
             id
+            excerpt
             fields {
               slug
+            }
+            frontmatter {
+              date(formatString: "MMMM DD, YYYY")
+              title
+              description
             }
           }
         }
@@ -36,6 +43,13 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
 
   const posts = result.data.allMarkdownRemark.nodes
 
+  createPaginatedPages({
+    edges: posts,
+    createPage,
+    pageTemplate: "src/templates/paginated.js",
+    pageLength: 6,
+    pathPrefix: "/blog",
+  })
   // Create blog posts pages
   // But only if there's at least one markdown file found at "content/blog" (defined in gatsby-config.js)
   // `context` is available in the template as a prop and as a variable in GraphQL
