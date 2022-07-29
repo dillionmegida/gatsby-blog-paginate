@@ -1,6 +1,6 @@
 ---
-title: Hello World
-date: "2015-05-01T22:12:03.284Z"
+title: Seventh Blog
+date: "2015-05-07T22:12:03.284Z"
 description: "Hello World"
 ---
 
